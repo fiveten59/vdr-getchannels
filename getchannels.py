@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#from cmath import polar
+from cmath import polar
 
 __author__     = "Armando Basile"
 __copyright__  = "Copyright 2011-2015"
@@ -10,8 +10,7 @@ __version__    = "0.7.0"
 __daterel__    = "2015-03-02"
 __maintainer__ = "Armando Basile"
 __email__      = "hmandevteam@gmail.com"
-
-
+__email__      = "bmihovski"
 
 #import sys
 import urllib
@@ -22,14 +21,11 @@ import argparse
 from app_params import app_params
 
 
-
-
 # main class to manage channels list generation
 class getchannels:
     
     # Attributes
-    
-    
+
     # class constructor
     def __init__(self):
 
@@ -62,12 +58,6 @@ class getchannels:
         
         # write output
         self.__write_output_file()
-        
-#        return
-
-
-
-
 
     # check for command line arguments
     def __parse_args(self):
@@ -96,12 +86,6 @@ class getchannels:
         self.__args = parser.parse_args()        
         return
 
-
-
-
-
-
-
     # read config file
     def __parse_config_file(self):
         # update local var with config file content
@@ -123,12 +107,6 @@ class getchannels:
                     self.__outputList.append(row)
                     self.__outputListLower.append(row.replace(" ", "").lower())
 
-        
-
-
-
-
-
     # get html code from kingofsat using specified url and extract data
     def __parse_kingofsat_list(self):
         
@@ -144,13 +122,6 @@ class getchannels:
         # parse all transponder section founded
         for idx in range(1, len(self.__transponder_list)):            
             self.__parse_transponder(self.__transponder_list[idx])
-            
-
-
-
-
-
-
 
     # parse single transponder
     def __parse_transponder(self, trans_code):
@@ -281,7 +252,6 @@ class getchannels:
                 else:
                     # unknow value, set to '0'
                     chRow = chRow.replace("<caid>", "0")
-                
                 # check for config file usage
                 if self.__args.configfile != None:
                     # try to found channel in our preset list from config file
@@ -307,16 +277,8 @@ class getchannels:
                         ib = len(self.__name_bouquets)-1
                     
                     # update value
-                    self.__channels_bouquets[ib] += chRow  #+"\n"
+                    self.__channels_bouquets[ib] += chRow + "\n"
 
-        
-        
-        
-        
-        
-        
-
-    
     # parse channel section
     def __parse_channel(self, channel_str):
         
@@ -326,7 +288,7 @@ class getchannels:
         out_channel_list = list()
     
         # channel name
-        tra2 = string.find(channel_str, '\"')
+        tra2 = string.find(channel_str, '"')
         chName = channel_str[tra1:tra2]
         
         # bouquets
@@ -336,7 +298,7 @@ class getchannels:
         tra2 = string.find(channel_str, "</TD>", tra1+10)
         bqtStr = channel_str[tra1+10:tra2]
         bouquetList = self.__parse_bouquet(bqtStr)
-        
+
         # service id
         tra1 = string.find(channel_str, '''td class="s">''',
                            tra2+3)
@@ -372,9 +334,7 @@ class getchannels:
             out_channel_list.append([chName, bqt, sid, vpid, apid, subtxt])
 
         return out_channel_list
-    
 
-    
     # parse audio pid string
     def __parse_audio_pid(self, strPid):
         
@@ -535,23 +495,7 @@ class getchannels:
             outinfo = "oth" + outinfo
         
         return outinfo
-    
 
-
-
-
-
-
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
     # parse bouquet section
     def __parse_bouquet(self, bouquetStr):
         
@@ -581,16 +525,7 @@ class getchannels:
             tra1 = -1
         
         return bqtList
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
     # write output file (channels list)
     def __write_output_file(self):
         outputStr = ""
@@ -613,8 +548,8 @@ class getchannels:
         else:
             # update output string with all data
             for item in range(0, len(self.__name_bouquets)):
-                outputStr += self.__channels_bouquets[item] 
-#  ":[ " + self.__name_bouquets[item] + " ]\n" +       
+                outputStr += ":[ " + self.__name_bouquets[item] + " ]\n" + self.__channels_bouquets[item]
+        
         
         # write data in to output file
         if not self.__args.out_tm:
@@ -630,18 +565,6 @@ class getchannels:
             file = open(self.__args.outfile + '.missing', "w")
             file.write(outputStrMissing)
             file.close()        
-        
-        
-        
-        
-        
-        
-
-
 
 # EntryPoint
 app=getchannels()
-
-
-
-
