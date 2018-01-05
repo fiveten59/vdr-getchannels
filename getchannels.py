@@ -574,8 +574,9 @@ class getchannels:
         else:
             # update output string with all data
             for item in range(0, len(self.__name_bouquets)):
+#                outputStr += ":[ " + self.__name_bouquets[item] + " ]\n" + self.__channels_bouquets[item]
                 outputStr += self.__channels_bouquets[item]
-#         ":[ " + self.__name_bouquets[item] + " ]\n" + 
+
         
         # write data in to output file
         if not self.__args.out_tm:
