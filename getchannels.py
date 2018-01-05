@@ -25,7 +25,8 @@ from app_params import app_params
 class getchannels:
     
     # Attributes
-
+    
+    
     # class constructor
     def __init__(self):
 
@@ -58,6 +59,10 @@ class getchannels:
         
         # write output
         self.__write_output_file()
+        
+        return
+
+
 
     # check for command line arguments
     def __parse_args(self):
@@ -86,6 +91,8 @@ class getchannels:
         self.__args = parser.parse_args()        
         return
 
+
+
     # read config file
     def __parse_config_file(self):
         # update local var with config file content
@@ -105,7 +112,9 @@ class getchannels:
                 if row[0:1] != "#":                    
                     # update local vars with file content
                     self.__outputList.append(row)
-                    self.__outputListLower.append(row.replace(" ", "").lower())
+                    self.__outputListLower.append(row.replace(" ", "").lower())   
+
+
 
     # get html code from kingofsat using specified url and extract data
     def __parse_kingofsat_list(self):
@@ -230,7 +239,7 @@ class getchannels:
         
         # split remaining data in many channel sections
         tmpCh = trans_code[tra2+4:]
-        tmpChCodes = tmpCh.split('title="Id:')
+        tmpChCodes = tmpCh.split(''' title="Id: ''')
         
         # parse all channel section founded
         for idx in range(1, len(tmpChCodes)):
@@ -279,6 +288,10 @@ class getchannels:
                     # update value
                     self.__channels_bouquets[ib] += chRow + "\n"
 
+        
+        
+
+    
     # parse channel section
     def __parse_channel(self, channel_str):
         
@@ -298,7 +311,7 @@ class getchannels:
         tra2 = string.find(channel_str, "</TD>", tra1+10)
         bqtStr = channel_str[tra1+10:tra2]
         bouquetList = self.__parse_bouquet(bqtStr)
-
+        
         # service id
         tra1 = string.find(channel_str, '''td class="s">''',
                            tra2+3)
@@ -316,7 +329,7 @@ class getchannels:
         tra2 = string.find(channel_str, '<font color="blue"', tra1+15)
         apidStr = channel_str[tra1:tra2].strip()
         apid = self.__parse_audio_pid(apidStr)
-
+        
         # pcr
         pcr = vpid
 
@@ -325,16 +338,21 @@ class getchannels:
         tra1 = string.find(channel_str, ">", tra1+10)
         tra2 = string.find(channel_str, "<", tra1+1)
         subtxt = channel_str[tra1+1:tra2].strip().replace("&nbsp;", "")
-
+        
         if subtxt == "":
             subtxt = "0"
-
+        
+        
         # fill channels output list
         for bqt in bouquetList:
             out_channel_list.append([chName, bqt, sid, vpid, apid, subtxt])
-
+    
         return out_channel_list
+    
 
+        
+
+    
     # parse audio pid string
     def __parse_audio_pid(self, strPid):
         
@@ -422,7 +440,10 @@ class getchannels:
         
         
         return outAudioPid
+    
 
+            
+    
     # extract audio pid info from each audio pid
     def __parse_audio_pid_single(self, strInfo):
         outinfo = ""
@@ -495,7 +516,10 @@ class getchannels:
             outinfo = "oth" + outinfo
         
         return outinfo
+    
 
+
+    
     # parse bouquet section
     def __parse_bouquet(self, bouquetStr):
         
@@ -525,7 +549,9 @@ class getchannels:
             tra1 = -1
         
         return bqtList
-
+        
+       
+        
     # write output file (channels list)
     def __write_output_file(self):
         outputStr = ""
@@ -565,6 +591,7 @@ class getchannels:
             file = open(self.__args.outfile + '.missing', "w")
             file.write(outputStrMissing)
             file.close()        
+
 
 # EntryPoint
 app=getchannels()
