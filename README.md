@@ -31,9 +31,12 @@ optional arguments:
 ```
 
 List of all channels not founded is pushed into <FILENAME>.missing file
+  
+Update by bmihovski (https://github.com/bmihovski/vdr-getchannels) 
 
 Examples:
 ```
-$ python getchannels.py -u -c getchannels.conf -l 13.0E -o channels.conf
+$ python getchannels.py -u -c getchannels.conf -l 13.0E -ot channels.conf
+$ python getchannels.py -l 13.0E -ot channels.conf
 ```
 
