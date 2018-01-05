@@ -10,7 +10,7 @@ __version__    = "0.7.0"
 __daterel__    = "2015-03-02"
 __maintainer__ = "Armando Basile"
 __email__      = "hmandevteam@gmail.com"
-__update__      = "bmihovski"
+__update__     = "bmihovski"
 
 #import sys
 import urllib
